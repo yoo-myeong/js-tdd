@@ -30,6 +30,15 @@ describe("Calculator", () => {
     expect(cal.value).toBe(5);
   });
 
+  // 에러를 예상하는 테스트코드를 작성하는법
+  // expect 안의 코드는 에러를 던질 것이고
+  // toThrow는 던져질 에러를 예상한다.
+  it("add sholud throw an error if value is greater than 100", () => {
+    expect(() => {
+      cal.add(101);
+    }).toThrow("Value can not be greater than 100");
+  });
+
   it("subtracts", () => {
     cal.subtract(5);
     expect(cal.value).toBe(-5);
