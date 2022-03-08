@@ -1,52 +1,55 @@
-import * as tweetRepository from '../data/tweets.js'
-import { getSocketIO } from '../connection/socket.js';
-
-export async function getTweet(req,res,next){
+export class TweetController {
+  constructor(tweetRepository, getSocket) {
+    this.tweets = tweetRepository;
+    this.getSocket = getSocket;
+  }
+  getTweets = async (req, res) => {
     const username = req.query.username;
-    let data;
-    if (username) data = await tweetRepository.getAllByUsername(username)
-    else data = await tweetRepository.getAll()
+    const data = await (username ? this.tweets.getAllByUsername(username) : this.tweets.getAll());
     res.status(200).json(data);
-}
+  };
 
-export async function getTweetById(req,res,next){
+  getTweet = async (req, res, next) => {
     const id = req.params.id;
-    const tweet = await tweetRepository.getById(id)
-    if(tweet) res.status(200).json(tweet)
-    else res.status(404).json({ message: `tweet ${id} not found`})
-}
+    const tweet = await this.tweets.getById(id);
+    if (tweet) {
+      res.status(200).json(tweet);
+    } else {
+      res.status(404).json({ message: `Tweet id(${id}) not found` });
+    }
+  };
 
-export async function createTweet(req,res,next){
-    const {text} = req.body
-    const tweets = await tweetRepository.create(text, req.userId)
-    res.status(201).json(tweets)
-    getSocketIO().emit('tweets', tweets);
-    
-}
+  createTweet = async (req, res, next) => {
+    const { text } = req.body;
+    const tweet = await this.tweets.create(text, req.userId);
+    res.status(201).json(tweet);
+    this.getSocket().emit("tweets", tweet);
+  };
 
-export async function updateTweet(req,res,next){
+  updateTweet = async (req, res, next) => {
     const id = req.params.id;
     const text = req.body.text;
-    const tweet = await tweetRepository.getById(id);
+    const tweet = await this.tweets.getById(id);
     if (!tweet) {
-        return res.status(404).json({ message: `Tweet not found: ${id}` });
+      return res.status(404).json({ message: `Tweet not found: ${id}` });
     }
     if (tweet.userId !== req.userId) {
-        return res.sendStatus(403);
+      return res.sendStatus(403);
     }
-    const updated = await tweetRepository.update(id, text);
+    const updated = await this.tweets.update(id, text);
     res.status(200).json(updated);
-}
+  };
 
-export async function deleteTweet(req,res,next){
+  deleteTweet = async (req, res, next) => {
     const id = req.params.id;
-    const tweet = await tweetRepository.getById(id);
+    const tweet = await this.tweets.getById(id);
     if (!tweet) {
-        return res.status(404).json({ message: `Tweet not found: ${id}` });
+      return res.status(404).json({ message: `Tweet not found: ${id}` });
     }
     if (tweet.userId !== req.userId) {
-        return res.sendStatus(403);
+      return res.sendStatus(403);
     }
-    await tweetRepository.remove(id);
+    await this.tweets.remove(id);
     res.sendStatus(204);
+  };
 }
