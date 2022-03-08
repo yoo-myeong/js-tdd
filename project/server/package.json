@@ -1,0 +1,40 @@
+{
+  "name": "twitter",
+  "version": "1.0.0",
+  "description": "twitter clone coding",
+  "main": "app.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yoo-myeong/Twitter-clone.git"
+  },
+  "author": "Seon",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yoo-myeong/Twitter-clone/issues"
+  },
+  "homepage": "https://github.com/yoo-myeong/Twitter-clone#readme",
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "express-async-errors": "^3.1.1",
+    "express-validator": "^6.13.0",
+    "helmet": "^4.6.0",
+    "jsonwebtoken": "^8.5.1",
+    "morgan": "^1.10.0",
+    "mysql2": "^2.3.0",
+    "pg": "^8.7.1",
+    "pg-hstore": "^2.3.4",
+    "sequelize": "^6.7.0",
+    "socket.io": "^4.3.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.13"
+  }
+}
