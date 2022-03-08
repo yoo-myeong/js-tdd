@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "test": "cross-env DOTENV_CONFIG_PATH=./.env.test jest --watchAll",
-    "start": "node app"
+    "start": "nodemon index"
   },
   "repository": {
     "type": "git",
@@ -37,6 +37,7 @@
   "devDependencies": {
     "@babel/plugin-transform-modules-commonjs": "^7.16.8",
     "@types/jest": "^27.4.1",
+    "axios": "^0.26.0",
     "cross-env": "^7.0.3",
     "faker": "^5.5.3",
     "jest": "^27.5.1",
